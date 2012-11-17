@@ -19,7 +19,7 @@ setup(
   classifiers = [
     'Development Status :: 2 - Pre-Alpha',
     'Intended Audience :: Developers',
-    'License :: OSI Approved :: BSD License',
+    'License :: OSI Approved :: MIT License',
     'Programming Language :: Python',
     'Operating System :: OS Independent',
     'Topic :: Internet :: WWW/HTTP :: WSGI :: Application',
