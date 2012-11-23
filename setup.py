@@ -12,7 +12,7 @@ setup(
   url = 'http://github.com/bis12/yapwaf',
   download_url = \
     'http://github.com/bis12/yapwaf/tarball/yapwaf-%s' % yapwaf.__version__,
-  packages = find_packages('yapwaf', exclude=['ez_setup']),
+  packages = find_packages('yapwaf'),
   provides = ['yapwaf'],
   long_description=open("README.rst").read(),
   install_requires=open('requirements.txt', 'r').readlines(),
