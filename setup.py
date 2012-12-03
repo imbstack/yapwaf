@@ -13,8 +13,9 @@ setup(
   download_url = \
     'http://github.com/bis12/yapwaf/tarball/yapwaf-%s' % yapwaf.__version__,
   packages = find_packages('yapwaf'),
+  scripts = ['scripts/yapwaf'],
   provides = ['yapwaf'],
-  long_description=open("README.rst").read(),
+  long_description=open("README.md").read(),
   install_requires=open('requirements.txt', 'r').readlines(),
   classifiers = [
     'Development Status :: 2 - Pre-Alpha',
