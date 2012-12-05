@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Hello from Yapwaf!</title>
+        {# simply include static assets with these helpers #}
+        {{Y.css('app')}}
+        {{Y.js('app')}}
+        {% block headers %}
+    </head>
+    <body>
+        {% block body %}
+    </body>
+</html>
