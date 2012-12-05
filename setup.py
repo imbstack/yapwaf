@@ -1,21 +1,25 @@
 #!/usr/bin/env python
 
-from setuptools import setup, find_packages
-import yapwaf
+from setuptools import setup
+
+__version__ = '0.1'
 
 setup(
   name = 'yapwaf',
-  version = yapwaf.__version__,
-  description = 'Simple lightweight WSGI application framework',
+  version = __version__,
+  description = 'Simple WSGI application framework',
   author = 'Brian Stack',
   author_email = 'bis12@case.edu',
   url = 'http://github.com/bis12/yapwaf',
-  download_url = \
-    'http://github.com/bis12/yapwaf/tarball/yapwaf-%s' % yapwaf.__version__,
-  packages = find_packages('yapwaf'),
+  packages = ['yapwaf'],
   provides = ['yapwaf'],
+  scripts = ['scripts/yapwaf'],
+  zip_safe = False,
   long_description=open("README.rst").read(),
-  install_requires=open('requirements.txt', 'r').readlines(),
+  install_requires = [
+    'Jinja2',
+    'SQLAlchemy',
+  ],
   classifiers = [
     'Development Status :: 2 - Pre-Alpha',
     'Intended Audience :: Developers',
