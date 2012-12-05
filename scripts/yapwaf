@@ -1,0 +1,90 @@
+#!/usr/bin/python
+"""
+General purpose scripts for all tasks associated with a YAPWAF app.
+"""
+import os
+import argparse
+import shutil
+
+
+def in_yap_proj():
+    """Return True if in YAPWAF project, False otherwise"""
+    # TODO: Make this do something
+    return False
+
+
+def gen_project(args):
+    # TODO: Check for valid names for directories
+    if os.path.exists(args.name):
+        prompt = """\
+                This will squash everything beneath %s, are you sure you wish \
+                to continue? [Yn]""" % (args.name,)
+        yn = raw_input(prompt)
+        if yn != 'Y':
+            print 'Exiting...'
+            exit()
+        shutil.rmtree(args.name)
+
+    os.mkdir(args.name)
+    os.mkdir(os.path.join(args.name, 'app'))
+    os.mkdir(os.path.join(args.name, 'app', 'controllers'))
+    os.mkdir(os.path.join(args.name, 'app', 'models'))
+    os.mkdir(os.path.join(args.name, 'app', 'views'))
+    os.mkdir(os.path.join(args.name, 'conf'))
+    os.mkdir(os.path.join(args.name, 'public'))
+    os.mkdir(os.path.join(args.name, 'public', 'js'))
+    os.mkdir(os.path.join(args.name, 'public', 'css'))
+    os.mkdir(os.path.join(args.name, 'tests'))
+
+    # TODO: Fill these files that need it with default code that is contained somewhere!
+    with open(os.path.join(args.name, 'app', 'views', 'layout.tmpl'), 'w') as f:
+        f.close()
+    with open(os.path.join(args.name, 'conf', 'env.py'), 'w') as f:
+        f.close()
+    with open(os.path.join(args.name, 'conf', 'db.py'), 'w') as f:
+        f.close()
+    with open(os.path.join(args.name, 'conf', 'routes.py'), 'w') as f:
+        f.close()
+    with open(os.path.join(args.name, 'conf', 'wsgi.py'), 'w') as f:
+        f.close()
+    with open(os.path.join(args.name, 'requirements.txt'), 'w') as f:
+        f.close()
+    with open(os.path.join(args.name, '%s.py'%(args.name,)), 'w') as f:
+        f.close()
+    print '%s has been created!' % (args.name,)
+
+
+def gen_scaff(args):
+    print args
+
+
+def get_args():
+    parser = argparse.ArgumentParser(
+            description='Perform tasks associated with YAPWAF web framework.',
+            epilog='Pass any of the options above. Keep in mind that some \
+                    only work within an existing YAPWAF project.')
+    subparsers = parser.add_subparsers(title='Subcommands',
+            description='Project management tasks.')
+
+    gen_proj = subparsers.add_parser('gen:project',
+            help='Generate a project structure with the name provided \
+                    in the current directory')
+    gen_proj.add_argument('name', help='The name of the project. \
+            A directory of this name will be created in the current directory')
+    gen_proj.set_defaults(func=gen_project)
+
+    gen_scaffold = subparsers.add_parser('gen:scaffold',
+            help='Generate a new scaffold with the name provided. \
+                    TODO: this should be more detailed...')
+    gen_scaffold.add_argument('name', help='The name of the scaffold.')
+    gen_scaffold.set_defaults(func=gen_scaff)
+    return parser.parse_args()
+
+
+def main():
+    args = get_args()
+    args.func(args)
+
+
+if __name__ == '__main__':
+    main()
