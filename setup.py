@@ -15,7 +15,7 @@ setup(
   provides = ['yapwaf'],
   scripts = ['scripts/yapwaf'],
   zip_safe = False,
-  long_description=open("README.rst").read(),
+  long_description=open("README").read(),
   install_requires = [
     'Jinja2',
     'SQLAlchemy',
