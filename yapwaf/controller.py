@@ -9,7 +9,7 @@ class Controller(object):
     def __init__(self, env):
         self.routes = []
         self.register_routes()
-        self.env = self.transform_env(env)
+        self.env = env
 
     def register_routes(self):
         for funcname in dir(self):
@@ -32,11 +32,8 @@ class Controller(object):
                 if ans[1] == 'no_template':
                     return ans[0]
                 if '/' in ans[0]:
-                    print 'HANDLE PATH STUFF LATER'
+                    view = View(ans[0].split('/')[0])
+                    return view.render(ans[0], ans[1])
                 else:
                     view = View(env['handler'])
                     return view.render(ans[0], ans[1])
-
-    def transform_env(self, env):
-        # TODO: make the keys in the dict nicer!
-        return env

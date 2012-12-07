@@ -20,6 +20,7 @@ setup(
   install_requires = [
     'Jinja2',
     'SQLAlchemy',
+    'Testify',
   ],
   classifiers = [
     'Development Status :: 2 - Pre-Alpha',
