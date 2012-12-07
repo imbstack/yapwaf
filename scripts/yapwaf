@@ -7,14 +7,59 @@ import argparse
 import shutil
 
 
+env_str = """\
+
+\"\"\"
+Configuring the environment for the YAPWAF app.
+Server configuration takes place in conf/wsgi.py
+\"\"\"
+from os import environ
+
+# Path for all static assets.  Everything beneath this will be served before
+# getting to the YAPWAF app itself.
+asset_path = 'public'
+
+if environ.get('Y_PROD'):
+    # DO stuff here if production environment is different
+    pass
+"""
+
+route_str = """\
+
+\"\"\"
+A simple list of endpoints that will be matched in order.
+
+Each entry is a tuple with
+1. A regex to match incoming requests against.  Special notation is used to
+   represent arguments.
+2. The path for the YAPWAF controller that handles this request.
+\"\"\"
+
+routes = []
+"""
+
+wsgi_str = """\
+\"\"\"
+gunicorn server configuration
+\"\"\"
+import multiprocessing
+from os import environ
+import sys
+
+sys.path.insert(0,'hello')
+
+bind = environ.get('BIND','0.0.0.0') + ':' + environ.get('PORT', '8000')
+workers = multiprocessing.cpu_count() * 2 + 1
+preload = True
+"""
+
+
 def in_yap_proj():
     """Return True if in YAPWAF project, False otherwise"""
-    # TODO: Make this do something
-    return False
+    return os.path.exists('app')
 
 
 def gen_project(args):
-    # TODO: Check for valid names for directories
     if os.path.exists(args.name):
         prompt = """\
                 This will squash everything beneath %s, are you sure you wish \
@@ -36,16 +81,18 @@ def gen_project(args):
     os.mkdir(os.path.join(args.name, 'public', 'css'))
     os.mkdir(os.path.join(args.name, 'tests'))
 
-    # TODO: Fill these files that need it with default code that is contained somewhere!
     with open(os.path.join(args.name, 'app', 'views', 'layout.tmpl'), 'w') as f:
         f.close()
     with open(os.path.join(args.name, 'conf', 'env.py'), 'w') as f:
+        f.write(env_str)
         f.close()
     with open(os.path.join(args.name, 'conf', 'db.py'), 'w') as f:
         f.close()
     with open(os.path.join(args.name, 'conf', 'routes.py'), 'w') as f:
+        f.write(route_str)
         f.close()
     with open(os.path.join(args.name, 'conf', 'wsgi.py'), 'w') as f:
+        f.write(wsgi_str)
         f.close()
     with open(os.path.join(args.name, 'requirements.txt'), 'w') as f:
         f.close()
@@ -55,7 +102,18 @@ def gen_project(args):
 
 
 def gen_scaff(args):
-    print args
+    if not in_yap_proj():
+        print 'NOT in a YAPWAF project... Exit!'
+        exit()
+    if os.path.exists(os.path.join('app', 'controllers', args.name)):
+        print 'Controller already exists, exiting!'
+        exit()
+    with open(os.path.join('app', 'controllers', args.name), 'w') as f:
+        f.close()
+    with open(os.path.join('app', 'models', args.name), 'w') as f:
+        f.close()
+    os.mkdir(os.path.join('app', 'views', args.name))
+    print 'Scaffold for %s created!' % (args.name,)
 
 
 def get_args():
