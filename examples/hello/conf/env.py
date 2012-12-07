@@ -11,6 +11,7 @@ name = 'hello'
 asset_path = 'public'
 
 if environ.get('Y_PROD'):
-    # DO stuff here if production environment is different
-    pass
-
+    # Do stuff here if production environment is different
+    level = 'production'
+else:
+    level = 'development'

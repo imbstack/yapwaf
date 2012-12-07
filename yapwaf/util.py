@@ -31,7 +31,7 @@ def json(t):
 
 
 def js(f):
-    return '<script type="text/javascript" src="/public/js%s.js"></script>'%(f,)
+    return '<script type="text/javascript" src="/public/js/%s.js"></script>'%(f,)
 
 
 def css(f):

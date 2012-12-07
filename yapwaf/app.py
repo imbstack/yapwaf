@@ -2,6 +2,7 @@
 Main class of a YAPWAF application.
 """
 
+import os
 from .util import make_matcher
 
 
@@ -19,6 +20,17 @@ class App(object):
         return new_routes
 
     def __call__(self, env, start_response):
+        if self.conf.level == 'development' and env['PATH_INFO'].startswith('/public'):
+            # TODO: set content-size and other nice things
+            with open(env['PATH_INFO'].lstrip('/'), 'r') as f:
+                if 'css' in env['PATH_INFO']:
+                    start_response('200 OK', [('Content-Type', 'text/css')])
+                elif 'js' in env['PATH_INFO']:
+                    start_response('200 OK', [('Content-Type', 'text/javascript')])
+                else:
+                    start_response('200 OK', [])
+                return f.read()
+
         for route in self.routes:
             if route[0].match(env['PATH_INFO']):
                 resp = route[1](env).route(env)
