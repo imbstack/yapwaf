@@ -15,6 +15,8 @@ Server configuration takes place in conf/wsgi.py
 \"\"\"
 from os import environ
 
+name = %s
+
 # Path for all static assets.  Everything beneath this will be served before
 # getting to the YAPWAF app itself.
 asset_path = 'public'
@@ -84,7 +86,7 @@ def gen_project(args):
     with open(os.path.join(args.name, 'app', 'views', 'layout.tmpl'), 'w') as f:
         f.close()
     with open(os.path.join(args.name, 'conf', 'env.py'), 'w') as f:
-        f.write(env_str)
+        f.write(env_str % (args.name,))
         f.close()
     with open(os.path.join(args.name, 'conf', 'db.py'), 'w') as f:
         f.close()
@@ -105,15 +107,21 @@ def gen_scaff(args):
     if not in_yap_proj():
         print 'NOT in a YAPWAF project... Exit!'
         exit()
-    if os.path.exists(os.path.join('app', 'controllers', args.name)):
+    if os.path.exists(os.path.join('app', 'views', args.name)):
         print 'Controller already exists, exiting!'
         exit()
-    with open(os.path.join('app', 'controllers', args.name), 'w') as f:
+    with open(os.path.join('app', 'controllers', '%s.py'%(args.name,)), 'w') as f:
         f.close()
-    with open(os.path.join('app', 'models', args.name), 'w') as f:
+    with open(os.path.join('app', 'models', '%s.py'%(args.name,)), 'w') as f:
         f.close()
     os.mkdir(os.path.join('app', 'views', args.name))
     print 'Scaffold for %s created!' % (args.name,)
+
+
+def run_servd(args):
+   command = 'gunicorn -c ./conf/wsgi.py %s:app' % (args.name,)
+   print command
+   os.system(command)
 
 
 def get_args():
@@ -132,10 +140,13 @@ def get_args():
     gen_proj.set_defaults(func=gen_project)
 
     gen_scaffold = subparsers.add_parser('gen:scaffold',
-            help='Generate a new scaffold with the name provided. \
-                    TODO: this should be more detailed...')
+            help='Generate a new scaffold with the name provided.')
     gen_scaffold.add_argument('name', help='The name of the scaffold.')
     gen_scaffold.set_defaults(func=gen_scaff)
+
+    run_serv = subparsers.add_parser('run', help='Start the server')
+    run_serv.add_argument('name', help='Name of application to run')
+    run_serv.set_defaults(func=run_servd)
     return parser.parse_args()
 
 
