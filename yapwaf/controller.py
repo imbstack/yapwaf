@@ -2,6 +2,7 @@
 The controller base class
 """
 from .routes import Route
+from .view import View
 
 class Controller(object):
 
@@ -30,7 +31,11 @@ class Controller(object):
                 ans = route.call(env['REQUEST_METHOD'], env['PATH_INFO'], env)
                 if ans[1] == 'no_template':
                     return ans[0]
-                # do the template thing here
+                if '/' in ans[0]:
+                    print 'HANDLE PATH STUFF LATER'
+                else:
+                    view = View(env['handler'])
+                    return view.render(ans[0], ans[1])
 
     def transform_env(self, env):
         # TODO: make the keys in the dict nicer!

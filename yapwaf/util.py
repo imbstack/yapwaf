@@ -15,6 +15,7 @@ class register(object):
 
     def __call__(self, f):
         def wrapped(*args):
+            args[1]['handler'] = 'index'  # for choosing the view
             return f(*args)
         wrapped._method = self._method
         wrapped._path = self._path
@@ -27,6 +28,17 @@ def text(t):
 
 def json(t):
     return [J.dumps(t)], 'no_template'
+
+
+def js(f):
+    return '<script type="text/javascript" src="/public/js%s.js"></script>'%(f,)
+
+
+def css(f):
+    return '<link rel="stylesheet" type="text/css" href="/public/css/%s.css">'%(f,)
+
+def link(name, href):
+    return '<a href="%s">%s</a>'%(href, name)
 
 
 def make_matcher(route):

@@ -1,7 +1,7 @@
 {% extends "layout.tmpl" %}
 
 {% block body %}
-    Yapwaf is a web framework that is built to be quick to use and so much more!
-    {# The link helper will link internally if there is not http[s]?:// #}
-    Check out {{link('https://github.com/bis12/yapwaf')}} for more details.
+    <h1>Hello from YAPWAF!</h1>Your IP address is {{ip}}.
+    
+    {{Y.link('About', '/about')}}
 {% endblock %}

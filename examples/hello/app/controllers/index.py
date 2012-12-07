@@ -8,7 +8,7 @@ class Index(Y.Controller):
 
     @Y.register(method='GET', path='/about')  # Will just show a template
     def about(self, env):
-        return 'about', None
+        return 'about', {}
 
     @Y.register(method='GET', path='/ping')  # Returns without using a template
     def ping(self, env):
