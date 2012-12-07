@@ -1,8 +1,8 @@
 import yapwaf as Y
 
-class Index(Y.controller):
+class Index(Y.Controller):
 
-    @Y.register()  # Default register method
+    @Y.register  # Default register method
     def hello(self):
         return 'index', {'ip': req.ip}
 

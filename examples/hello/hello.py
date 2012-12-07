@@ -2,6 +2,8 @@
 Base file for YAPWAF application
 """
 import yapwaf as Y
-from .conf import env, db
+import conf.env as env
+import conf.db as db
+import conf.routes as routes
 
-app = Y.app(env, db)
+app = Y.App(env, db, routes)

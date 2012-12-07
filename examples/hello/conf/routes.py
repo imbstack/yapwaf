@@ -6,7 +6,8 @@ Each entry is a tuple with
    represent arguments.
 2. The path for the YAPWAF controller that handles this request.
 """
+import app.controllers.index as index
 
 routes = []
 
-routes.append('<default>', index.Index)
+routes.append(('<default>', index.Index))
