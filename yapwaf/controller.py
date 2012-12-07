@@ -27,8 +27,10 @@ class Controller(object):
     def route(self, env):
         for route in self.routes:
             if route.match(env['PATH_INFO']):
-                # TODO:  do this response code stuff smarter!
-                return route.call(env['REQUEST_METHOD'], env['PATH_INFO'], env)
+                ans = route.call(env['REQUEST_METHOD'], env['PATH_INFO'], env)
+                if ans[1] == 'no_template':
+                    return ans[0]
+                # do the template thing here
 
     def transform_env(self, env):
         # TODO: make the keys in the dict nicer!

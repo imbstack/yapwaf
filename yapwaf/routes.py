@@ -17,9 +17,11 @@ class Route(object):
         return self.matcher.match(path)
 
     def call(self, method, path, env):
+        print '%s: %s' % (method, path)
         # TODO: perhaps use regex again if multiple args are expected?
         args = {self.argname: path.split('/')[-1]}
-        return self.endpoints[method](env.update(args))
+        env.update(args)
+        return self.endpoints[method](env)
 
     def update(self, method, endpoint):
         self.endpoints[method] = endpoint
