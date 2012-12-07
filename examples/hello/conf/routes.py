@@ -10,4 +10,4 @@ import app.controllers.index as index
 
 routes = []
 
-routes.append(('<default>', index.Index))
+routes.append(('/', index.Index))

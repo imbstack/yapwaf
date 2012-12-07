@@ -2,6 +2,9 @@
 Main class of a YAPWAF application.
 """
 
+from .util import make_matcher
+
+
 class App(object):
 
     def __init__(self, conf, db, routes):
@@ -10,10 +13,18 @@ class App(object):
         self.routes = self.setup_routes(routes)
 
     def setup_routes(self, routes):
-        print routes.routes
-        return routes.routes
+        new_routes = []
+        for route in routes.routes:
+            new_routes.append(make_matcher(route))
+        return new_routes
 
     def __call__(self, env, start_response):
-        print env
-        start_response('200 OK', [('Content-Type', 'text/plain')])
-        return 'HELLO THERE!\n'
+        for route in self.routes:
+            if route[0].match(env['PATH_INFO']):
+                resp = route[1](env).route(env)
+                if resp:
+                    start_response('200 OK', [('Content-Type', 'text')])
+                    return resp
+        # If we get here, no match was found, so return 404
+        start_response('404 Not Found', [('Content-Type', 'text/plain')])
+        return '404 page not found!'
