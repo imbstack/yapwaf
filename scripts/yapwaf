@@ -55,6 +55,13 @@ workers = multiprocessing.cpu_count() * 2 + 1
 preload = True
 """
 
+req_str = """\
+# Basic requirements
+yapwaf
+
+# Custom requirements
+"""
+
 
 def in_yap_proj():
     """Return True if in YAPWAF project, False otherwise"""
@@ -97,6 +104,7 @@ def gen_project(args):
         f.write(wsgi_str)
         f.close()
     with open(os.path.join(args.name, 'requirements.txt'), 'w') as f:
+        f.write(req_str)
         f.close()
     with open(os.path.join(args.name, '%s.py'%(args.name,)), 'w') as f:
         f.close()
