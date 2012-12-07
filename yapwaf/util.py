@@ -60,3 +60,15 @@ def make_end_matcher(path):
         name = ''
     new_match = RE.sub('/'+name_match, '/'+name_match.strip('><'), path)
     return RE.compile('^'+new_match+'$'), name
+
+
+def get_asset(path, start_response):
+    # TODO: set content-size and other nice things
+    with open(path.lstrip('/'), 'r') as f:
+        if 'css' in path:
+            start_response('200 OK', [('Content-Type', 'text/css')])
+        elif 'js' in path:
+            start_response('200 OK', [('Content-Type', 'text/javascript')])
+        else:
+            start_response('200 OK', [])
+        return f.read()
