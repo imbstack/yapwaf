@@ -123,6 +123,8 @@ def gen_scaff(args):
     with open(os.path.join('app', 'models', '%s.py'%(args.name,)), 'w') as f:
         f.close()
     os.mkdir(os.path.join('app', 'views', args.name))
+    with open(os.path.join('app', 'views', args.name, 'index.tmpl'), 'w') as f:
+        f.close()
     print 'Scaffold for %s created!' % (args.name,)
 
 
