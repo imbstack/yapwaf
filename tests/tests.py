@@ -35,7 +35,7 @@ class ControllerTest(T.TestCase):
     @T.class_setup
     def setup_mocks(self):
         self.env = {'PATH_INFO': '/', 'REQUEST_METHOD': 'GET'}
-        self.controller = Y.Controller(self.env)
+        self.controller = Y.Controller('/', self.env)
         def temp(arg):
             return Y.text('testing')
         self.controller.routes.append(Y.Route('GET', '/', temp))
