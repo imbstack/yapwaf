@@ -2,3 +2,24 @@ yapwaf
 ======
 
 A small WSGI application framework for a software engineering class project.
+
+
+Installation
+------------
+Simply run 'python setup.py develop' in order to get this working in a development
+fashion.  Switch 'develop' for 'intstall' in order for non-development installation.
+
+Running
+-------
+The 'yapwaf' script that will be in your path after installation provides all the
+necessary tools to create, maintain, and run a YAPWAF application.
+
+Testing
+-------
+There are tests in the testing directory.  Simply execute 'testify tests.tests'
+to run them.
+
+Examples
+--------
+There is an examples directory that contains one example application that shows
+off many of the tools that YAPWAF provides.
