@@ -8,6 +8,7 @@ name_match = '<[a-zA-Z0-9]+>'
 
 
 class register(object):
+    """A decorator to register a method for routing"""
 
     def __init__(self, method='GET', path='/'):
         self._method = method
@@ -22,21 +23,28 @@ class register(object):
 
 
 def text(t):
+    """Simply tell the controller that no template is needed"""
     return [t], 'no_template'
 
 
 def json(t):
+    """Simply tell the controller that no template is needed after dumping
+    the input through json serialization.
+    """
     return [J.dumps(t)], 'no_template'
 
 
 def js(f):
+    """Generate a script tag for a javascript file"""
     return '<script type="text/javascript" src="/public/js/%s.js"></script>'%(f,)
 
 
 def css(f):
+    """Generate a link for a css file"""
     return '<link rel="stylesheet" type="text/css" href="/public/css/%s.css">'%(f,)
 
 def link(name, href):
+    """Generate an <a> element for links"""
     return '<a href="%s">%s</a>'%(href, name)
 
 
@@ -62,7 +70,7 @@ def make_end_matcher(path):
 
 
 def get_asset(path, start_response):
-    # TODO: set content-size and other nice things
+    """If public assets are being served by YAPWAF, this will serve them"""
     with open(path.lstrip('/'), 'r') as f:
         if 'css' in path:
             start_response('200 OK', [('Content-Type', 'text/css')])

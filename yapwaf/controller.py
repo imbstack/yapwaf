@@ -7,6 +7,9 @@ from .view import View
 class Controller(object):
 
     def __init__(self, entity, env):
+        """Instantiate a controller with the name of the entity and the
+        environment dict.
+        """
         self.entity = entity.strip('/^$')
         if not self.entity:
             self.entity = 'index'
@@ -15,12 +18,18 @@ class Controller(object):
         self.env = env
 
     def register_routes(self):
+        """Simple internal method to run through all of the methods of this class
+        and see if they've been decorated to be endpoints.
+        """
         for funcname in dir(self):
             func = getattr(self, funcname)
             if hasattr(func, '_method') and hasattr(func, '_path'):
                 self.update_routes(func._method, func._path, func)
 
     def update_routes(self, method, matcher, endpoint):
+        """Adds an endpoint into the possible endpoints of a path based on
+        its HTTP method
+        """
         for route in self.routes:
             if route.key == matcher:
                 route.update(method, endpoint)
@@ -29,6 +38,9 @@ class Controller(object):
         self.routes.append(Route(method, matcher, endpoint))
 
     def route(self, env):
+        """Called by the application to route the requests to the proper endpoint
+        in this controller.
+        """
         for route in self.routes:
             if self.entity == 'index':
                 path = '/' + '/'.join(env['PATH_INFO'].split('/')[1:])
