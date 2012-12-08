@@ -23,7 +23,7 @@ class App(object):
             return get_asset(env['PATH_INFO'], start_response)
         for route in self.routes:
             if route[0].match(env['PATH_INFO']):
-                resp = route[1](env).route(env)
+                resp = route[1](route[0].pattern, env).route(env)
                 if resp:
                     start_response('200 OK', [('Content-Type', 'text')])
                     return resp

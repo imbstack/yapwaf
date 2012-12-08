@@ -6,7 +6,10 @@ from .view import View
 
 class Controller(object):
 
-    def __init__(self, env):
+    def __init__(self, entity, env):
+        self.entity = entity.strip('/^$')
+        if not self.entity:
+            self.entity = 'index'
         self.routes = []
         self.register_routes()
         self.env = env
@@ -27,7 +30,11 @@ class Controller(object):
 
     def route(self, env):
         for route in self.routes:
-            if route.match(env['PATH_INFO']):
+            if self.entity == 'index':
+                path = '/' + '/'.join(env['PATH_INFO'].split('/')[1:])
+            else:
+                path = '/' + '/'.join(env['PATH_INFO'].split('/')[2:])
+            if route.match(path):
                 ans = route.call(env['REQUEST_METHOD'], env['PATH_INFO'], env)
                 if ans[1] == 'no_template':
                     return ans[0]
@@ -35,5 +42,5 @@ class Controller(object):
                     view = View(ans[0].split('/')[0])
                     return view.render(ans[0], ans[1])
                 else:
-                    view = View(env['handler'])
+                    view = View(self.entity)
                     return view.render(ans[0], ans[1])

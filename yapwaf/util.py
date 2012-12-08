@@ -15,7 +15,6 @@ class register(object):
 
     def __call__(self, f):
         def wrapped(*args):
-            args[1]['handler'] = 'index'  # for choosing the view
             return f(*args)
         wrapped._method = self._method
         wrapped._path = self._path

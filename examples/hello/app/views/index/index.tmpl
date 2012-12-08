@@ -3,5 +3,8 @@
 {% block body %}
     <h1>Hello from YAPWAF!</h1>Your IP address is {{ip}}.
     
-    {{Y.link('About', '/about')}}
+    <ul>
+    <li>{{Y.link('About', '/about')}}</li>
+    <li>{{Y.link('Users', '/user')}}</li>
+    </ul>
 {% endblock %}
