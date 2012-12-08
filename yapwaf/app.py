@@ -2,7 +2,6 @@
 Main class of a YAPWAF application.
 """
 
-import os
 from .util import make_matcher, get_asset
 
 
